@@ -1,0 +1,22 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-GB
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation PBI_QueryOrder = ["AAPL_Stock_Price_Dataset"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBIDesktopVersion = 2.131.1203.0 (24.07)
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table AAPL_Stock_Price_Dataset
+ref table DateTableTemplate_f1d78944-ff8f-4788-85df-cc7a6b6db72e
+ref table LocalDateTable_b61fde4b-f614-4de5-a331-d2998d64d332
+
+ref cultureInfo en-US
+

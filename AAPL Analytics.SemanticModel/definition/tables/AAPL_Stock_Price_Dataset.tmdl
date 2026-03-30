@@ -1,0 +1,110 @@
+table AAPL_Stock_Price_Dataset
+	lineageTag: 85ef34e7-9995-48e0-b1e7-4120acde2d7f
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: cb111a2e-dae8-4004-938c-1420f008e2f0
+		summarizeBy: none
+		sourceColumn: Date
+
+		variation Variation
+			isDefault
+			relationship: 20b1111a-68fe-4c1e-bdf1-16ffda2b48ec
+			defaultHierarchy: LocalDateTable_b61fde4b-f614-4de5-a331-d2998d64d332.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Open
+		dataType: double
+		lineageTag: 85cccbca-f9c7-404b-bdc6-8ed33383231e
+		summarizeBy: sum
+		sourceColumn: Open
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column High
+		dataType: double
+		lineageTag: 5e45e82f-3796-4158-b5df-35ef733cb709
+		summarizeBy: sum
+		sourceColumn: High
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Low
+		dataType: double
+		lineageTag: 7bd1a0c2-e200-4ab6-baf9-193104f7f20d
+		summarizeBy: sum
+		sourceColumn: Low
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Close
+		dataType: double
+		lineageTag: 8bfe98e4-5e07-4b0b-9921-0324c87a8b19
+		summarizeBy: sum
+		sourceColumn: Close
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Volume
+		dataType: int64
+		formatString: 0
+		lineageTag: 38ac86de-9007-4232-922c-9cca25ea1c26
+		summarizeBy: sum
+		sourceColumn: Volume
+
+		annotation SummarizationSetBy = Automatic
+
+	column Daily_Return
+		dataType: double
+		lineageTag: 5bf76371-3c02-46b4-aa85-3118925b6c4f
+		summarizeBy: sum
+		sourceColumn: Daily_Return
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Price_Range
+		dataType: double
+		lineageTag: 8c52a42e-b846-464c-a6e7-0f03687d50ea
+		summarizeBy: sum
+		sourceColumn: Price_Range
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Price_Change
+		dataType: double
+		lineageTag: 697fe9cc-0481-42a4-8ece-ef24e3c28ae3
+		summarizeBy: sum
+		sourceColumn: Price_Change
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition AAPL_Stock_Price_Dataset = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Power BI\Github\PBIBroTraining\AAPL_Stock_Price_Dataset.csv"),[Delimiter=",", Columns=9, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Date", type date}, {"Open", type number}, {"High", type number}, {"Low", type number}, {"Close", type number}, {"Volume", Int64.Type}, {"Daily_Return", type number}, {"Price_Range", type number}, {"Price_Change", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

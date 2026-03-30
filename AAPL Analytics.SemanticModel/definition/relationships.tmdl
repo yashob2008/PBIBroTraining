@@ -1,0 +1,5 @@
+relationship 20b1111a-68fe-4c1e-bdf1-16ffda2b48ec
+	joinOnDateBehavior: datePartOnly
+	fromColumn: AAPL_Stock_Price_Dataset.Date
+	toColumn: LocalDateTable_b61fde4b-f614-4de5-a331-d2998d64d332.Date
+
