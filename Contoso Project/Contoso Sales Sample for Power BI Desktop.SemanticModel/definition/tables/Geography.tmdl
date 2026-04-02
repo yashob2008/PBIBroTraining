@@ -1,0 +1,58 @@
+table Geography
+	lineageTag: 74ffff67-c413-484a-8562-713942c4a4e6
+
+	column GeographyKey
+		dataType: double
+		isHidden
+		lineageTag: 3891a2ad-6ff2-4569-892a-9df866621827
+		summarizeBy: none
+		sourceColumn: GeographyKey
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column GeographyType
+		dataType: string
+		lineageTag: cdc961e4-794a-4d15-a483-a79a92567521
+		summarizeBy: none
+		sourceColumn: GeographyType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	column ContinentName
+		dataType: string
+		lineageTag: 9232b035-1be6-43a4-bde9-46cdd98514d8
+		summarizeBy: none
+		sourceColumn: ContinentName
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	column RegionCountryName
+		dataType: string
+		lineageTag: 6d58bc0f-d4b0-4e50-9715-0470fe6a214f
+		summarizeBy: none
+		sourceColumn: RegionCountryName
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	partition Geography-58d372dd-b829-4a56-ab9b-7254792b8d12 = m
+		mode: import
+		source =
+				let
+				    Source = Access.Database(File.Contents("C:\Users\owend\Documents\ContosoSalesV31_64bit.accdb")),
+				    _DimGeography = Source{[Schema="",Item="DimGeography"]}[Data],
+				    #"Removed Columns" = Table.RemoveColumns(_DimGeography,{"ETLLoadID", "LoadDate", "UpdateDate"})
+				in
+				    #"Removed Columns"
+
+	annotation ColumnsMetadata = {"Columns":[{"Name":"GeographyKey","Id":"Server.Database\\/1/File/c:\\\\users\\\\owend\\\\documents\\\\contososalesv31_64bit.accdb//DimGeography.{GeographyKey,0}"},{"Name":"GeographyType","Id":"Server.Database\\/1/File/c:\\\\users\\\\owend\\\\documents\\\\contososalesv31_64bit.accdb//DimGeography.{GeographyType,1}"},{"Name":"ContinentName","Id":"Server.Database\\/1/File/c:\\\\users\\\\owend\\\\documents\\\\contososalesv31_64bit.accdb//DimGeography.{ContinentName,2}"},{"Name":"RegionCountryName","Id":"Server.Database\\/1/File/c:\\\\users\\\\owend\\\\documents\\\\contososalesv31_64bit.accdb//DimGeography.{RegionCountryName,3}"}]}
+
+	annotation PBI_ResultType = Table
+

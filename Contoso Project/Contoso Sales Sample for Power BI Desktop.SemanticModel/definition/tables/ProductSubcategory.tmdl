@@ -1,0 +1,48 @@
+table ProductSubcategory
+	lineageTag: 02cd512c-98bd-4ceb-a36e-e218e9378726
+
+	column ProductSubcategoryKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: ad190920-72d2-467d-9111-9aa60f067754
+		summarizeBy: none
+		sourceColumn: ProductSubcategoryKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductSubcategory
+		dataType: string
+		lineageTag: 8d2dc6dc-ad10-4b74-a530-01925aae6aca
+		summarizeBy: none
+		sourceColumn: ProductSubcategory
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	column ProductCategoryKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 984fa5ba-07b6-4a90-afba-c73f81ca29e3
+		summarizeBy: none
+		sourceColumn: ProductCategoryKey
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ProductSubcategory-aa5c8a99-d0a5-480c-bacf-c3b1c9950bbc = m
+		mode: import
+		source =
+				let
+				    Source = Access.Database(File.Contents("C:\Users\owend\Documents\ContosoSalesV31_64bit.accdb")),
+				    _DimProductSubcategory = Source{[Schema="",Item="DimProductSubcategory"]}[Data],
+				    #"Removed Columns" = Table.RemoveColumns(_DimProductSubcategory,{"ProductSubcategoryLabel", "ProductSubcategoryDescription", "ETLLoadID", "LoadDate", "UpdateDate"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Removed Columns",{{"ProductSubcategoryName", "ProductSubcategory"}})
+				in
+				    #"Renamed Columns"
+
+	annotation ColumnsMetadata = {"Columns":[{"Name":"ProductSubcategoryKey","Id":"Server.Database\\/1/File/c:\\\\users\\\\owend\\\\documents\\\\contososalesv31_64bit.accdb//DimProductSubcategory.{ProductSubcategoryKey,0}"},{"Name":"ProductSubcategory","Id":"Server.Database\\/1/File/c:\\\\users\\\\owend\\\\documents\\\\contososalesv31_64bit.accdb//DimProductSubcategory.{ProductSubcategoryName,2}"},{"Name":"ProductCategoryKey","Id":"Server.Database\\/1/File/c:\\\\users\\\\owend\\\\documents\\\\contososalesv31_64bit.accdb//DimProductSubcategory.{ProductCategoryKey,4}"}]}
+
+	annotation PBI_ResultType = Table
+
